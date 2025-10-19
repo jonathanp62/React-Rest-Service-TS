@@ -1,5 +1,5 @@
 /*
- * (#)Footer.tsx    0.1.0   10/18/2025
+ * (#)PostsProps.tsx    0.1.0   10/19/2025
  *
  * @author  Jonathan Parker
  * @version 0.1.0
@@ -28,15 +28,9 @@
  * SOFTWARE.
  */
 
-import type { JSX } from "react";
-import type {FooterProps} from "./types/FooterProps.tsx";
-
-import './styles/styles.css'
-
-export default function Footer({ title, version }: Readonly<FooterProps>): JSX.Element {
-    return (
-        <div>
-            <p className="p-text">{ title } - Version {version}</p>
-        </div>
-    );
+/** The interface for the component's props for clarity and type safety. */
+export interface PostsProps {
+    readonly getUrl: string;
+    readonly postUrl: string;
+    readonly deleteUrl: string;
 }

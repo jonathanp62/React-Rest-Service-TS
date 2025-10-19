@@ -28,10 +28,12 @@
  * SOFTWARE.
  */
 
-import './styles/styles.css'
 import type { JSX } from "react";
+
+import './styles/styles.css'
 import Header from "./Header.tsx";
 import Footer from "./Footer.tsx";
+import Posts from "./Posts.tsx";
 import packageJson from "../package.json";
 
 /**
@@ -43,7 +45,11 @@ function App(): JSX.Element {
     return (
         <>
             <Header title={ packageJson.appConfig.title } />
-            <Footer title={ packageJson.appConfig.title } version={ packageJson.version }/>
+            <Posts getUrl={ packageJson.appConfig.postsGetUrl }
+                   postUrl={ packageJson.appConfig.postsPostUrl }
+                   deleteUrl={ packageJson.appConfig.postsDeleteUrl }/>
+            <Footer title={ packageJson.appConfig.title }
+                    version={ packageJson.version }/>
         </>
     );
 }
