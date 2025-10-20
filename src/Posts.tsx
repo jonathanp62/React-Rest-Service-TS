@@ -129,7 +129,7 @@ export default function Posts({ getUrl, postUrl, deleteUrl }: Readonly<PostsProp
     };
 
     const editPost: (id: number) => Promise<void> = async (id: number): Promise<void> => {
-        navigate('/edit', { replace: true });
+        navigate(`/edit?id=${id}`, { replace: true });
     };
 
     const handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void = (e: React.FormEvent<HTMLFormElement>): void => {

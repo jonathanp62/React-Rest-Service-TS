@@ -30,7 +30,7 @@
 
 import type { JSX } from "react";
 
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 
 /**
  * The edit component.
@@ -38,9 +38,13 @@ import { Link } from "react-router-dom";
  * @return  {JSX.Element}
  */
 export default function Edit(): JSX.Element {
+    // Use array destructuring to get the searchParams object
+    const [searchParams] = useSearchParams();
+    const postId: string | null = searchParams.get('id');
+
     return (
         <div>
-            <h2>Edit</h2>
+            <h2>Edit - Post {postId}</h2>
             <Link to="/">Home</Link>
         </div>
     );
