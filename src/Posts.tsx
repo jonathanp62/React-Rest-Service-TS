@@ -45,7 +45,7 @@ export default function Posts({ getUrl, postUrl, deleteUrl }: Readonly<PostsProp
      * The interface for the post.
      */
     interface Post {
-        userId: number,
+        userId: number, /* The user IDs are always 1 */
         id: number;
         title: string;
         body: string;
@@ -166,8 +166,10 @@ export default function Posts({ getUrl, postUrl, deleteUrl }: Readonly<PostsProp
                             <hr />
                             <h2>{ post.title }</h2>
                             <p>{ post.body }</p>
-                            <div>
+                            <div className="fixed-button-group">
+                                <button className="fixed-button">Edit</button>
                                 <button
+                                    className="fixed-button"
                                     onClick={ (): Promise<void> => deletePost(post.id) }
                                 >
                                     Delete

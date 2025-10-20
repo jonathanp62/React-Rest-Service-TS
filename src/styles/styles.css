@@ -120,3 +120,15 @@ textarea.form-input {
 .submit-button:hover {
     background-color: #0056b3;
 }
+
+/* Styling for the delete and edit buttons */
+.fixed-button-group {
+    gap: 10px; /* Adjust this value for desired spacing */
+}
+
+.fixed-button {
+    width: 80px;  /* Set a fixed width */
+    height: 22px;  /* Set a fixed height */
+    padding: 1px 6px;
+    margin-right: 3px;
+}
