@@ -134,19 +134,29 @@ export default function Posts({ getUrl, postUrl, deleteUrl }: Readonly<PostsProp
     return (
         <div>
             <div>
-                <form onSubmit={ handleSubmit }>
-                    <input type="text"
-                           value={ title }
-                           onChange={ e => setTitle(e.target.value) }
-                    />
-                    <textarea name=""
-                              id=""
-                              cols="10"
-                              rows="8"
-                              value={ body }
-                              onChange={ e => setBody(e.target.value) }
-                    />
-                    <button type="submit">Add Post</button>
+                <form className="form-container" onSubmit={ handleSubmit }>
+                    <div className="form-group">
+                        <label htmlFor="title" className="form-group-label">Title</label>
+                        <input
+                            type="text"
+                            id="title"
+                            className="form-input"
+                            value={ title }
+                            onChange={(e) => setTitle(e.target.value)}
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="body" className="form-group-label">Body</label>
+                        <textarea
+                            id="body"
+                            className="form-input"
+                            value={ body }
+                            onChange={(e) => setBody(e.target.value)}
+                        />
+                    </div>
+                    <button type="submit" className="submit-button">
+                        Add Post
+                    </button>
                 </form>
             </div>
             <div>
