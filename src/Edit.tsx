@@ -28,10 +28,9 @@
  * SOFTWARE.
  */
 
-import type { JSX } from "react";
-
+import React, {type JSX, useEffect, useState} from "react";
 import { Link, useSearchParams } from "react-router-dom";
-
+import type { Post } from "./types/Post.tsx";
 /**
  * The edit component.
  *
@@ -42,9 +41,64 @@ export default function Edit(): JSX.Element {
     const [searchParams] = useSearchParams();
     const postId: string | null = searchParams.get('id');
 
+    const [title, setTitle] = useState<string>("");
+    const [body, setBody] = useState<string>("");
+
+    useEffect((): void => {
+        /**
+         * Fetches the specified post from the server. The fetch will not
+         * return a post newly added since it won't be actually saved to
+         * the JSON placeholder data store.
+         */
+        const fetchPosts: () => Promise<void> = async (): Promise<void> => {
+            try {
+                const response: Response = await fetch(`https://jsonplaceholder.typicode.com/posts/${postId}`);
+                const post: Post = await response.json();
+
+                setTitle(post.title);
+                setBody(post.body);
+            } catch (error) {
+                console.log(error);
+            }
+        }
+
+        fetchPosts().finally();
+    }, [postId]);
+
+    const handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void = (e: React.FormEvent<HTMLFormElement>): void => {
+        e.preventDefault();
+    };
+
     return (
         <div>
             <h2>Edit - Post {postId}</h2>
+            <div>
+                <form className="form-container" onSubmit={ handleSubmit }>
+                    <div className="form-group">
+                        <label htmlFor="title" className="form-group-label">Title</label>
+                        <input
+                            type="text"
+                            id="title"
+                            className="form-input"
+                            value={ title }
+                            onChange={(e) => setTitle(e.target.value)}
+                        />
+                    </div>
+                    <div className="form-group">
+                        <label htmlFor="body" className="form-group-label">Body</label>
+                        <textarea
+                            id="body"
+                            className="form-input"
+                            value={ body }
+                            onChange={(e) => setBody(e.target.value)}
+                        />
+                    </div>
+                    <button type="submit" className="submit-button">
+                        Edit Post
+                    </button>
+                </form>
+            </div>
+
             <Link to="/">Home</Link>
         </div>
     );

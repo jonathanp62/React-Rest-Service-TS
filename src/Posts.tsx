@@ -30,10 +30,11 @@
 
 import type { JSX } from "react";
 import type { PostsProps } from "./types/PostsProps.tsx";
+import type { Post } from "./types/Post.tsx";
 
 import React from "react";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import {type NavigateFunction, useNavigate} from "react-router-dom";
 
 /**
  * The posts component.
@@ -42,18 +43,8 @@ import { useNavigate } from "react-router-dom";
  * @return                          {JSX.Element}
  */
 export default function Posts({ getUrl, postUrl, deleteUrl }: Readonly<PostsProps>): JSX.Element {
-    /** The naviaget function. */
-    const navigate = useNavigate();
-
-    /**
-     * The interface for the post.
-     */
-    interface Post {
-        userId: number, /* The user IDs are always 1 */
-        id: number;
-        title: string;
-        body: string;
-    }
+    /** The navigate function. */
+    const navigate: NavigateFunction = useNavigate();
 
     const [title, setTitle] = useState<string>("");
     const [body, setBody] = useState<string>("");

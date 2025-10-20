@@ -60,8 +60,7 @@ h1 {
 
 /* General form layout */
 .form-container {
-    width: 100%;
-    max-width: 800px;   /* Optional: Sets a max-width for better readability */
+    width: 800px;
     margin: 20px auto;
     padding: 20px;
     border: 1px solid #ccc;
