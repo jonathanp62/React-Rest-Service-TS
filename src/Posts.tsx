@@ -34,7 +34,7 @@ import type { Post } from "./types/Post.tsx";
 
 import React from "react";
 import { useEffect, useState } from "react";
-import {type NavigateFunction, useNavigate} from "react-router-dom";
+import { type NavigateFunction, useNavigate } from "react-router-dom";
 
 /**
  * The posts component.
@@ -56,7 +56,7 @@ export default function Posts({ getUrl, postUrl, deleteUrl }: Readonly<PostsProp
          */
         const fetchPosts: () => Promise<void> = async (): Promise<void> => {
             try {
-                const response: Response = await fetch(getUrl);
+                const response: Response = await fetch(`${getUrl}?_limit=10`);
                 const posts: Post[] = await response.json();
 
                 setPosts(posts);

@@ -34,9 +34,10 @@ import type { Post } from "./types/Post.tsx";
 /**
  * The edit component.
  *
+ * @param   {string}    getUrl
  * @return  {JSX.Element}
  */
-export default function Edit(): JSX.Element {
+export default function Edit( { getUrl }: { getUrl: string }): JSX.Element {
     // Use array destructuring to get the searchParams object
     const [searchParams] = useSearchParams();
     const postId: string | null = searchParams.get('id');
@@ -52,7 +53,7 @@ export default function Edit(): JSX.Element {
          */
         const fetchPosts: () => Promise<void> = async (): Promise<void> => {
             try {
-                const response: Response = await fetch(`https://jsonplaceholder.typicode.com/posts/${postId}`);
+                const response: Response = await fetch(`${getUrl}/${postId}`);
                 const post: Post = await response.json();
 
                 setTitle(post.title);
@@ -63,7 +64,7 @@ export default function Edit(): JSX.Element {
         }
 
         fetchPosts().finally();
-    }, [postId]);
+    }, [getUrl, postId]);
 
     const handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void = (e: React.FormEvent<HTMLFormElement>): void => {
         e.preventDefault();

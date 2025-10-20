@@ -34,6 +34,7 @@ import './styles/styles.css'
 import Edit from "./Edit.tsx";
 import Home from "./Home.tsx";
 import { Routes, Route } from 'react-router-dom';
+import packageJson from "../package.json";
 
 /**
  * The App component.
@@ -44,7 +45,7 @@ function App(): JSX.Element {
     return (
         <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/edit" element={<Edit />} />
+            <Route path="/edit" element={<Edit getUrl={ packageJson.appConfig.postsGetUrl }/>} />
         </Routes>
     );
 }
