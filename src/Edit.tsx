@@ -1,5 +1,5 @@
 /*
- * (#)App.tsx   0.1.0   10/18/2025
+ * (#)Edit.tsx  0.1.0   10/20/2025
  *
  * @author  Jonathan Parker
  * @version 0.1.0
@@ -30,23 +30,18 @@
 
 import type { JSX } from "react";
 
-import './styles/styles.css'
-import Edit from "./Edit.tsx";
-import Home from "./Home.tsx";
-import { Routes, Route } from 'react-router-dom';
+import { Link } from "react-router-dom";
 
 /**
- * The App component.
+ * The edit component.
  *
- * @returns {JSX.Element}
+ * @return  {JSX.Element}
  */
-function App(): JSX.Element {
+export default function Edit(): JSX.Element {
     return (
-        <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/edit" element={<Edit />} />
-        </Routes>
+        <div>
+            <h2>Edit</h2>
+            <Link to="/">Home</Link>
+        </div>
     );
 }
-
-export default App;

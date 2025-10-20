@@ -1,5 +1,5 @@
 /*
- * (#)App.tsx   0.1.0   10/18/2025
+ * (#)Home.tsx   0.1.0   10/20/2025
  *
  * @author  Jonathan Parker
  * @version 0.1.0
@@ -31,22 +31,27 @@
 import type { JSX } from "react";
 
 import './styles/styles.css'
-import Edit from "./Edit.tsx";
-import Home from "./Home.tsx";
-import { Routes, Route } from 'react-router-dom';
+import Header from "./Header.tsx";
+import Footer from "./Footer.tsx";
+import Posts from "./Posts.tsx";
+import packageJson from "../package.json";
 
 /**
- * The App component.
+ * The home component.
  *
  * @returns {JSX.Element}
  */
-function App(): JSX.Element {
+function Home(): JSX.Element {
     return (
-        <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/edit" element={<Edit />} />
-        </Routes>
+        <>
+            <Header title={ packageJson.appConfig.title } />
+            <Posts getUrl={ packageJson.appConfig.postsGetUrl }
+                   postUrl={ packageJson.appConfig.postsPostUrl }
+                   deleteUrl={ packageJson.appConfig.postsDeleteUrl }/>
+            <Footer title={ packageJson.appConfig.title }
+                    version={ packageJson.version }/>
+        </>
     );
 }
 
-export default App;
+export default Home;

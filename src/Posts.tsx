@@ -33,6 +33,7 @@ import type { PostsProps } from "./types/PostsProps.tsx";
 
 import React from "react";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 /**
  * The posts component.
@@ -41,6 +42,9 @@ import { useEffect, useState } from "react";
  * @return                          {JSX.Element}
  */
 export default function Posts({ getUrl, postUrl, deleteUrl }: Readonly<PostsProps>): JSX.Element {
+    /** The naviaget function. */
+    const navigate = useNavigate();
+
     /**
      * The interface for the post.
      */
@@ -72,7 +76,6 @@ export default function Posts({ getUrl, postUrl, deleteUrl }: Readonly<PostsProp
 
         fetchPosts().finally();
     }, [getUrl]);
-
 
     /**
      * Adds a post to the server.
@@ -125,6 +128,10 @@ export default function Posts({ getUrl, postUrl, deleteUrl }: Readonly<PostsProp
         }
     };
 
+    const editPost: (id: number) => Promise<void> = async (id: number): Promise<void> => {
+        navigate('/edit', { replace: true });
+    };
+
     const handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void = (e: React.FormEvent<HTMLFormElement>): void => {
         e.preventDefault();
 
@@ -167,7 +174,12 @@ export default function Posts({ getUrl, postUrl, deleteUrl }: Readonly<PostsProp
                             <h2>{ post.title }</h2>
                             <p>{ post.body }</p>
                             <div className="fixed-button-group">
-                                <button className="fixed-button">Edit</button>
+                                <button
+                                    className="fixed-button"
+                                    onClick={ (): Promise<void> => editPost(post.id) }
+                                >
+                                    Edit
+                                </button>
                                 <button
                                     className="fixed-button"
                                     onClick={ (): Promise<void> => deletePost(post.id) }
