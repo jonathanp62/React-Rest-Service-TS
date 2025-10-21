@@ -33,6 +33,12 @@ import type {FooterProps} from "./types/FooterProps.tsx";
 
 import './styles/styles.css'
 
+/**
+ * The footer component.
+ *
+ * @param   {Readonly<FooterProps>} props           The props for the component.
+ * @return                          {JSX.Element}
+ */
 export default function Footer({ title, version }: Readonly<FooterProps>): JSX.Element {
     return (
         <div>

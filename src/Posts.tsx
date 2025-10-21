@@ -99,6 +99,12 @@ export default function Posts({ getUrl, postUrl, deleteUrl }: Readonly<PostsProp
         }
     };
 
+    /**
+     * Delete the post.
+     *
+     * @param {number}  id
+     * @return          {Promise<void>}
+     */
     const deletePost: (id: number) => Promise<void> = async (id: number): Promise<void> => {
         const url: string = `${deleteUrl}/${id}`;
 
@@ -119,10 +125,21 @@ export default function Posts({ getUrl, postUrl, deleteUrl }: Readonly<PostsProp
         }
     };
 
+    /**
+     * Edit the post.
+     *
+     * @param {number}  id
+     * @return          {Promise<void>}
+     */
     const editPost: (id: number) => Promise<void> = async (id: number): Promise<void> => {
         navigate(`/edit?id=${id}`, { replace: true });
     };
 
+    /**
+     * Handle the submit button.
+     *
+     * @param   {React.FormEvent<HTMLFormElement>}  e
+     */
     const handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void = (e: React.FormEvent<HTMLFormElement>): void => {
         e.preventDefault();
 
