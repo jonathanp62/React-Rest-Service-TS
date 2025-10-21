@@ -60,7 +60,7 @@ export default function Edit( { getUrl }: { getUrl: string }): JSX.Element {
          * return a post newly added since it won't be actually saved to
          * the JSON placeholder data store.
          */
-        const fetchPosts: () => Promise<void> = async (): Promise<void> => {
+        const fetchPost: () => Promise<void> = async (): Promise<void> => {
             try {
                 const response: Response = await fetch(`${getUrl}/${postId}`);
                 const data: Post = await response.json();
@@ -71,7 +71,7 @@ export default function Edit( { getUrl }: { getUrl: string }): JSX.Element {
             }
         }
 
-        fetchPosts().finally();
+        fetchPost().finally();
     }, [getUrl, postId]);
 
     /**
@@ -100,12 +100,18 @@ export default function Edit( { getUrl }: { getUrl: string }): JSX.Element {
      * @param {React.FormEvent<HTMLFormElement} e
      */
     const handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void = (e: React.FormEvent<HTMLFormElement>): void => {
+        setPostUpdated(false);
+
         if (titleUpdated && bodyUpdated) {
             putPost();
             setPostUpdated(true);
+            setTitleUpdated(false);
+            setBodyUpdated(false);
         } else if (titleUpdated || bodyUpdated) {
             patchPost();
             setPostUpdated(true);
+            setTitleUpdated(false);
+            setBodyUpdated(false);
         } else {
             console.log("The post was not updated");
         }
