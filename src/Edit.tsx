@@ -42,8 +42,16 @@ export default function Edit( { getUrl }: { getUrl: string }): JSX.Element {
     const [searchParams] = useSearchParams();
     const postId: string | null = searchParams.get('id');
 
-    const [title, setTitle] = useState<string>("");
-    const [body, setBody] = useState<string>("");
+    const emptyPost: Post = {
+        id: 0,
+        title: '',
+        body: '',
+        userId: 0
+    }
+
+    const [post, setPost] = useState<Post>(emptyPost);
+    const [titleUpdated, setTitleUpdated] = useState<boolean>(false);
+    const [bodyUpdated, setBodyUpdated] = useState<boolean>(false);
 
     useEffect((): void => {
         /**
@@ -54,10 +62,9 @@ export default function Edit( { getUrl }: { getUrl: string }): JSX.Element {
         const fetchPosts: () => Promise<void> = async (): Promise<void> => {
             try {
                 const response: Response = await fetch(`${getUrl}/${postId}`);
-                const post: Post = await response.json();
+                const data: Post = await response.json();
 
-                setTitle(post.title);
-                setBody(post.body);
+                setPost(data);
             } catch (error) {
                 console.log(error);
             }
@@ -66,9 +73,99 @@ export default function Edit( { getUrl }: { getUrl: string }): JSX.Element {
         fetchPosts().finally();
     }, [getUrl, postId]);
 
+    /**
+     * The change title handler.
+     *
+     * @param   {string}    title
+     */
+    const titleChanged: (title: string) => void = (title: string): void => {
+        setPost({ ...post, title: title });
+        setTitleUpdated(true);
+    }
+
+    /**
+     * The change body handler.
+     *
+     * @param   {string}    body
+     */
+    const bodyChanged: (body: string) => void = (body: string): void => {
+        setPost({ ...post, body: body });
+        setBodyUpdated(true);
+    }
+
+    /**
+     * The submit button handler.
+     *
+     * @param {React.FormEvent<HTMLFormElement} e
+     */
     const handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void = (e: React.FormEvent<HTMLFormElement>): void => {
+        if (titleUpdated && bodyUpdated) {
+            putPost();
+        } else if (titleUpdated || bodyUpdated) {
+            patchPost();
+        } else {
+            console.log("The post was not updated");
+        }
+
         e.preventDefault();
     };
+
+    /**
+     * Edit the post with a PATCH request.
+     */
+    const patchPost: () => void = (): void => {
+        if (titleUpdated) {
+            fetch(`${getUrl}/${post.id}`, {
+                method: 'PATCH',
+                body: JSON.stringify({
+                    title: post.title,
+                }),
+                headers: {
+                    'Content-type': 'application/json; charset=UTF-8',
+                },
+            }).then((response) => response.json())
+                .then((json) => {
+                    console.log("Used PATCH to update the post's title:");
+                    console.log(json)
+                });
+        } else {
+            fetch(`${getUrl}/${post.id}`, {
+                method: 'PATCH',
+                body: JSON.stringify({
+                    body: post.body,
+                }),
+                headers: {
+                    'Content-type': 'application/json; charset=UTF-8',
+                },
+            }).then((response) => response.json())
+                .then((json) => {
+                    console.log("Used PATCH to update the post's body:");
+                    console.log(json)
+                });
+        }
+    }
+
+    /**
+     * Edit the post with a PUT request.
+     */
+    const putPost: () => void = (): void => {
+        fetch(`${getUrl}/${post.id}`, {
+            method: 'PUT',
+            body: JSON.stringify({
+                id: post.id,
+                title: post.title,
+                body: post.body,
+                userId: post.userId,
+            }),
+            headers: {
+                'Content-type': 'application/json; charset=UTF-8',
+            },
+        }).then((response) => response.json())
+          .then((json) => {
+              console.log("Used PUT to replace the post:");
+              console.log(json)
+          });
+    }
 
     return (
         <div>
@@ -81,8 +178,8 @@ export default function Edit( { getUrl }: { getUrl: string }): JSX.Element {
                             type="text"
                             id="title"
                             className="form-input"
-                            value={ title }
-                            onChange={(e) => setTitle(e.target.value)}
+                            value={ post.title }
+                            onChange={(e) => titleChanged(e.target.value)}
                         />
                     </div>
                     <div className="form-group">
@@ -90,8 +187,8 @@ export default function Edit( { getUrl }: { getUrl: string }): JSX.Element {
                         <textarea
                             id="body"
                             className="form-input"
-                            value={ body }
-                            onChange={(e) => setBody(e.target.value)}
+                            value={ post.body }
+                            onChange={(e) => bodyChanged(e.target.value)}
                         />
                     </div>
                     <button type="submit" className="submit-button">
