@@ -52,6 +52,7 @@ export default function Edit( { getUrl }: { getUrl: string }): JSX.Element {
     const [post, setPost] = useState<Post>(emptyPost);
     const [titleUpdated, setTitleUpdated] = useState<boolean>(false);
     const [bodyUpdated, setBodyUpdated] = useState<boolean>(false);
+    const [postUpdated, setPostUpdated] = useState<boolean>(false);
 
     useEffect((): void => {
         /**
@@ -101,8 +102,10 @@ export default function Edit( { getUrl }: { getUrl: string }): JSX.Element {
     const handleSubmit: (e: React.FormEvent<HTMLFormElement>) => void = (e: React.FormEvent<HTMLFormElement>): void => {
         if (titleUpdated && bodyUpdated) {
             putPost();
+            setPostUpdated(true);
         } else if (titleUpdated || bodyUpdated) {
             patchPost();
+            setPostUpdated(true);
         } else {
             console.log("The post was not updated");
         }
@@ -196,6 +199,13 @@ export default function Edit( { getUrl }: { getUrl: string }): JSX.Element {
                     </button>
                 </form>
             </div>
+            {postUpdated ? (
+                <div>
+                    <hr />
+                    <h2>{ post.title }</h2>
+                    <p>{ post.body }</p>
+                </div>
+            ) : null}
 
             <Link to="/">Home</Link>
         </div>
